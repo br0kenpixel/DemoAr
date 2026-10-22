@@ -976,6 +976,7 @@ GameObject:
   - component: {fileID: 1244026240}
   - component: {fileID: 1244026239}
   - component: {fileID: 1244026243}
+  - component: {fileID: 1244026244}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1092,6 +1093,18 @@ MonoBehaviour:
   FaceDetectionStatus: {fileID: 1072739319}
   faceManager: {fileID: 2512387470422636670}
   session: {fileID: 1167446572}
+--- !u!114 &1244026244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244026238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c4c19c36da52447bd4a2abdc8162d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoWakelock
 --- !u!1 &1345939312
 GameObject:
   m_ObjectHideFlags: 0
