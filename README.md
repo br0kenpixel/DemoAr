@@ -1,0 +1,3 @@
+# Demo AR project
+
+Unity version `6000.6.5f1`
