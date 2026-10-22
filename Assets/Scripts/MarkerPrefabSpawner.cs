@@ -18,6 +18,8 @@ public class MarkerPrefabSpawner : MonoBehaviour
     private ARTrackedImageManager trackedImageManager;
     private readonly Dictionary<string, GameObject> prefabsByName = new();
     private readonly Dictionary<TrackableId, GameObject> spawnedObjects = new();
+    private readonly Dictionary<TrackableId, ARTrackedImage> trackedImages = new();
+    private TrackableId activeImageId = TrackableId.invalidId;
 
     private void Awake()
     {
@@ -40,20 +42,49 @@ public class MarkerPrefabSpawner : MonoBehaviour
     {
         foreach (var image in args.added)
         {
-            if (prefabsByName.TryGetValue(image.referenceImage.name, out var prefab))
-                spawnedObjects[image.trackableId] = Instantiate(prefab, image.transform);
-        }
+            if (!prefabsByName.TryGetValue(image.referenceImage.name, out var prefab))
+                continue;
 
-        foreach (var image in args.updated)
-        {
-            if (spawnedObjects.TryGetValue(image.trackableId, out var spawned))
-                spawned.SetActive(image.trackingState == TrackingState.Tracking);
+            var spawned = Instantiate(prefab, image.transform);
+            spawned.SetActive(false);
+            spawnedObjects[image.trackableId] = spawned;
+            trackedImages[image.trackableId] = image;
         }
 
         foreach (var pair in args.removed)
         {
             if (spawnedObjects.Remove(pair.Key, out var spawned))
                 Destroy(spawned);
+            trackedImages.Remove(pair.Key);
+
+            if (pair.Key == activeImageId)
+                activeImageId = TrackableId.invalidId;
+        }
+
+        UpdateActiveObject();
+    }
+
+    private void UpdateActiveObject()
+    {
+        // Release the slot once the active marker is no longer tracked.
+        if (activeImageId != TrackableId.invalidId &&
+            trackedImages[activeImageId].trackingState != TrackingState.Tracking)
+        {
+            spawnedObjects[activeImageId].SetActive(false);
+            activeImageId = TrackableId.invalidId;
+        }
+
+        if (activeImageId != TrackableId.invalidId)
+            return;
+
+        foreach (var pair in trackedImages)
+        {
+            if (pair.Value.trackingState != TrackingState.Tracking)
+                continue;
+
+            activeImageId = pair.Key;
+            spawnedObjects[activeImageId].SetActive(true);
+            break;
         }
     }
 }
