@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/FaceDemo.unity
     guid: 102e7245a9b268245b74bb474c2c8372
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FaceSwapper.unity
     guid: e6eca7b82ee1aa94a934eda3cdc61dab
+  - enabled: 1
+    path: Assets/Scenes/MarkerDemo.unity
+    guid: 33ad5dde80abf024198b5917d213318b
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 0465d33c6aee55f44b0237db8b0e0259, type: 2}
